@@ -107,39 +107,41 @@ iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 # From here onwards, we can add incoming firewall exceptions using only the NEW state
 
 # (2) TODO: Allow all outgoing packets that belong to ESTABLISHED or RELATED connections.
-
+iptables -A OUTPUT -m state --state ESTABILSHED,RELATED -j ACCEPT
 
 # (3) Allow outgoing DNS requests
 iptables -A OUTPUT -p udp --dport 53 -m state --state NEW -j ACCEPT
 
 # (4) TODO: Allow outgoing SSH connections to remote SSH servers
-
+#iptables -A OUTPUT -p tcp --dport 22 -m state --state NEW -j ACCEPT
 
 # (5) TODO: Allow incomming connections to local SSH server
+#iptables -A INPUT -p tcp --dport 22 -m state --state NEW -j ACCEPT
 
 
 # (6) TODO: Allow outgoing HTTP requests 
-
+#iptables -A OUTPUT -p tcp --dport 80 -m state --state NEW -j ACCEPT
 
 # (7) TODO: Allow incoming HTTP requests destined to local HTTP server
-
+#iptables -A INPUT -p tcp --dport 80 -m state --state NEW -j ACCEPT
 
 # (8) TODO: Allow outgoing HTTPS requests 
-
+#iptables -A OUTPUT -p tcp --dport 443 -m state --state NEW -j ACCEPT
 
 # (9) TODO: Allow incoming HTTPS requests destined to local HTTP server
-
+#iptables -A INPUT -p tcp --dport 443 -m state --state NEW -j ACCEPT
 
 # (10) TODO: Allow outgoing ping requests
-
+iptables -A OUTPUT -p icmp --icmp-type 8 -m state --state NEW -j ACCEPT
 
 # (11) TODO: Allow incoming ping requests
-
+iptables -A INPUT -p icmp --icmp-type 8 -m state --state  NEW -j ACCEPT
 
 # (12) TODO: Compress rules 4-9 into two iptables commands using
 # "-m multiport" and "--ports" switches.
 # Make sure to comment rules 4-9 before testing.
-
+iptables -A OUTPUT -p tcp -m multiport --dports 22,80,443 -m state --state NEW -j ACCEPT
+iptables -A INPUT -p tcp -m multiport --dports 22,80,443 -m state --state NEW -j ACCEPT
 
 ### FORWARDING RULES
 
