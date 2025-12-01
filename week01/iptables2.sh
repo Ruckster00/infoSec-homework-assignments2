@@ -107,7 +107,7 @@ iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 # From here onwards, we can add incoming firewall exceptions using only the NEW state
 
 # (2) TODO: Allow all outgoing packets that belong to ESTABLISHED or RELATED connections.
-iptables -A OUTPUT -m state --state ESTABILSHED,RELATED -j ACCEPT
+iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 
 # (3) Allow outgoing DNS requests
 iptables -A OUTPUT -p udp --dport 53 -m state --state NEW -j ACCEPT
@@ -117,7 +117,6 @@ iptables -A OUTPUT -p udp --dport 53 -m state --state NEW -j ACCEPT
 
 # (5) TODO: Allow incomming connections to local SSH server
 #iptables -A INPUT -p tcp --dport 22 -m state --state NEW -j ACCEPT
-
 
 # (6) TODO: Allow outgoing HTTP requests 
 #iptables -A OUTPUT -p tcp --dport 80 -m state --state NEW -j ACCEPT
@@ -135,7 +134,7 @@ iptables -A OUTPUT -p udp --dport 53 -m state --state NEW -j ACCEPT
 iptables -A OUTPUT -p icmp --icmp-type 8 -m state --state NEW -j ACCEPT
 
 # (11) TODO: Allow incoming ping requests
-iptables -A INPUT -p icmp --icmp-type 8 -m state --state  NEW -j ACCEPT
+iptables -A INPUT -p icmp --icmp-type 8 -m state --state NEW -j ACCEPT
 
 # (12) TODO: Compress rules 4-9 into two iptables commands using
 # "-m multiport" and "--ports" switches.
