@@ -148,7 +148,7 @@ iptables -A INPUT -p tcp -m multiport --dports 22,80,443 -m state --state NEW -j
 iptables -t nat -A POSTROUTING -o $INET_IFACE -j MASQUERADE
 
 # (13) TODO: Allow routing of packets that belong to ESTABLISHED or RELATED connections.
-
+iptables -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
 
 # (14) Forward pings
 iptables -A FORWARD -p icmp --icmp-type echo-request -m state --state NEW  -j ACCEPT
@@ -157,7 +157,10 @@ iptables -A FORWARD -p icmp --icmp-type echo-request -m state --state NEW  -j AC
 iptables -A FORWARD -o $INET_IFACE -p udp -m multiport --ports 53 -m state --state NEW -j ACCEPT
 
 # (16) TODO: Forward HTTP, HTTPS and SSH traffic from client_subnet to Internet and to server_subnet
+iptables -A FORWARD -p tcp --dport 22 -s "172.16.0.2" -d "10.0.0.2" -m state --state NEW -j ACCEPT
+iptables -A FORWARD -p tcp --dport 22 -s "10.0.0.2" -d "172.16.0.2" -m state --state NEW -j ACCEPT
 
+iptables -A FORWARD -p tcp -m multiport --dports 22,80,443 -m state --state NEW -j ACCEPT
 
 }
 
